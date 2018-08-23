@@ -20,6 +20,7 @@ object WebSocketActor {
 class WebSocketActor(out: ActorRef, stock: Stock) extends Actor with ActorLogging {
 
   val tick: Cancellable = {
+    log.info("THIS IS IN CANCELLABLE IN ACTOR?")
     context.system.scheduler.schedule(Duration.Zero, 15.seconds, self, SendLatestMessage)(context.system.dispatcher)
   }
 
