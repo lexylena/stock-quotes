@@ -3,15 +3,18 @@
 <html>
 <head>
     <title>Real Time Stock Quotes Home</title>
+    <link rel='stylesheet' href='@routes.Assets.at("lib/bootstrap/css/bootstrap.min.css")'>
     <script type='text/javascript' src='@routes.Assets.at("lib/jquery/jquery.min.js")'></script>
     <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 </head>
 <body>
-    <h1>Real Time Stock Quotes</h1>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="@routes.HomeController.index">Real Time Stock Quotes</a>
     <form action="@routes.HomeController.searchStock()" method="get">
         <input name="searchText" type="text"/>
         <button>Search</button>
     </form>
+</nav>
 </body>
 </html>
 

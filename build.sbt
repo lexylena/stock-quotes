@@ -13,7 +13,7 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 libraryDependencies += ws
 
 libraryDependencies += "org.webjars" % "flot" % "0.8.3"
-libraryDependencies += "org.webjars" % "bootstrap" % "3.3.6"
+libraryDependencies += "org.webjars" % "bootstrap" % "4.1.3"
 libraryDependencies += "com.yahoofinance-api" % "YahooFinanceAPI" % "3.14.0"
 
 

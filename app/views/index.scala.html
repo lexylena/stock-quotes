@@ -8,23 +8,37 @@
     <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 </head>
 <body data-ws-url="@routes.HomeController.ws.webSocketURL()">
-    <div class="container-fluid p-3">
-        <h1>Real Time Stock Quotes</h1>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="@routes.HomeController.index">Real Time Stock Quotes</a>
         <form action="@routes.HomeController.searchStock()" method="get">
             <input name="searchText" type="text"/>
             <button>Search</button>
         </form>
-        <div id="message_holder"></div>
-        <div class="card bg-light m-3">
-            <div class="card-header">
-                <h3 class="card-title" id="stock-name"></h3>
-                <p class="card-text" id="stock-details"></p>
-            </div>
-            <div class="card-body" id="stock-quote">
-                <div id="price"></div>
-                <div id="start-price"></div>
-                <div id="change"></div>
-                <div id="percent-change"></div>
+    </nav>
+
+    <div class="container-fluid p-3">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <div class="card bg-light m-3">
+                    <div class="card-header">
+                        <h2 class="card-title" id="stock-name"></h2>
+                        <p class="card-text" id="stock-details"></p>
+                    </div>
+                    <div class="card-body m-3" id="stock-quote">
+                        <div class="row">
+                            <div class="col-6">
+                                <h4 id="price"></h4>
+                                <p class="text-muted">Price</p>
+                                <br/><h5 id="start-price"></h5>
+                                <p class="text-muted">Previous Close</p>
+                            </div>
+                            <div class="col-6">
+                                <h5 id="change"></h5>
+                                <h5 id="change-percent"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
