@@ -10,6 +10,8 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.streams.ActorFlow
 import play.api.mvc._
+import scala.concurrent.ExecutionContext
+import play.api.libs.json._
 import yahoofinance.{YahooFinance, Stock}
 
 /**
@@ -17,8 +19,7 @@ import yahoofinance.{YahooFinance, Stock}
   */
 @Singleton
 class HomeController @Inject()(implicit actorSystem: ActorSystem,
-                               mat: Materializer
-                              ) extends Controller {
+                               mat: Materializer, ec: ExecutionContext) extends Controller {
   var currentStock: Stock = _
 
   // Home page that renders template
@@ -41,7 +42,7 @@ class HomeController @Inject()(implicit actorSystem: ActorSystem,
 
 
 
-  def ws: WebSocket = WebSocket.accept[String, String] { request =>
+  def ws: WebSocket = WebSocket.accept[JsValue, JsValue] { request =>
     Logger.info("WS ALIVE!")
     Logger.info("current stock being passed to actor = "+currentStock.getSymbol)
 //    val stock = YahooFinance.get("intc")

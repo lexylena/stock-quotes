@@ -2,17 +2,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reactive Website</title>
+    <title>Real Time Stock Quotes</title>
+    <link rel='stylesheet' href='@routes.Assets.at("lib/bootstrap/css/bootstrap.min.css")'>
     <script type='text/javascript' src='@routes.Assets.at("lib/jquery/jquery.min.js")'></script>
     <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 </head>
 <body data-ws-url="@routes.HomeController.ws.webSocketURL()">
-    <h1>Real Time Stock Quotes</h1>
-    <form action="@routes.HomeController.searchStock()" method="get">
-        <input name="searchText" type="text"/>
-        <button>Search</button>
-    </form>
-    <div id="message_holder"></div>
+    <div class="container-fluid p-3">
+        <h1>Real Time Stock Quotes</h1>
+        <form action="@routes.HomeController.searchStock()" method="get">
+            <input name="searchText" type="text"/>
+            <button>Search</button>
+        </form>
+        <div id="message_holder"></div>
+        <div class="card bg-light m-3">
+            <div class="card-header">
+                <h3 class="card-title" id="stock-name"></h3>
+                <p class="card-text" id="stock-details"></p>
+            </div>
+            <div class="card-body" id="stock-quote">
+                <div id="price"></div>
+                <div id="start-price"></div>
+                <div id="change"></div>
+                <div id="percent-change"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 
