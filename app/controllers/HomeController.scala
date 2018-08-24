@@ -4,10 +4,13 @@ import javax.inject._
 import actors._
 import akka.actor._
 import akka.stream._
+import models.SearchText
 import play.api.Logger
+import play.api.data.Form
+import play.api.data.Forms._
 import play.api.libs.streams.ActorFlow
 import play.api.mvc._
-import yahoofinance.{Stock, YahooFinance}
+import yahoofinance.{YahooFinance, Stock}
 
 /**
   * This class creates the actions and the websocket needed.
@@ -25,7 +28,7 @@ class HomeController @Inject()(implicit actorSystem: ActorSystem,
     } else {
       Logger.info("current stock when in index = "+currentStock.getSymbol)
     }
-    Ok(views.html.index())
+    Ok(views.html.home())
   }
 
   // Home page that renders template
@@ -43,6 +46,25 @@ class HomeController @Inject()(implicit actorSystem: ActorSystem,
     Logger.info("current stock being passed to actor = "+currentStock.getSymbol)
 //    val stock = YahooFinance.get("intc")
     ActorFlow.actorRef(out => WebSocketActor.props(out, currentStock))
+  }
+
+  /**
+    * The search form for the search bar.
+    */
+  val searchForm: Form[SearchText] = Form {
+    mapping(
+      "searchText" -> text
+    )(SearchText.apply)(SearchText.unapply)
+  }
+
+  /**
+    * Retrieve the search text from the form and redirect to display the stock
+    */
+  def searchStock = Action { implicit request: Request[AnyContent] =>
+    val searchText = searchForm.bindFromRequest.get
+    Logger.debug("getStock() stock = "+searchText)
+    currentStock = YahooFinance.get(searchText.searchText)
+    Redirect(routes.HomeController.getStock(searchText.searchText))
   }
 
 }

@@ -6,5 +6,7 @@ GET     /                           controllers.HomeController.index
 GET     /ws                         controllers.HomeController.ws
 GET     /:sym                       controllers.HomeController.getStock(sym: String)
 
+GET     /search/                    controllers.HomeController.searchStock
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

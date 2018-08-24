@@ -2,17 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reactive Website</title>
+    <title>Real Time Stock Quotes Home</title>
     <script type='text/javascript' src='@routes.Assets.at("lib/jquery/jquery.min.js")'></script>
     <script type='text/javascript' src='@routes.Assets.at("javascripts/index.js")'></script>
 </head>
-<body data-ws-url="@routes.HomeController.ws.webSocketURL()">
+<body>
     <h1>Real Time Stock Quotes</h1>
     <form action="@routes.HomeController.searchStock()" method="get">
         <input name="searchText" type="text"/>
         <button>Search</button>
     </form>
-    <div id="message_holder"></div>
 </body>
 </html>
 
