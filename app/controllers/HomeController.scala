@@ -20,32 +20,32 @@ import yahoofinance.{YahooFinance, Stock}
 @Singleton
 class HomeController @Inject()(implicit actorSystem: ActorSystem,
                                mat: Materializer, ec: ExecutionContext) extends Controller {
+
+  // keep track of the current stock to pass to actor
   var currentStock: Stock = _
 
-  // Home page that renders template
+  /**
+    * Renders home page template
+    */
   def index = Action { implicit request =>
-    if (currentStock == null) {
-      Logger.info("current stock when in index = null ")
-    } else {
-      Logger.info("current stock when in index = "+currentStock.getSymbol)
-    }
     Ok(views.html.home())
   }
 
-  // Home page that renders template
+  /**
+    * Gets stock with matching name or symbol from Yahoo finance API
+    * and updates currentStock. Renders index template, triggering
+    * the websocket connection.
+    * @param stock the stock symbol to search for
+    */
   def getStock(stock: String) = Action { implicit request =>
     currentStock = YahooFinance.get(stock)
-    Logger.info("current stock set in getStock = "+currentStock.getSymbol)
     Ok(views.html.index())
   }
 
-
-
-
+  /**
+    * Create a new websocket connection for the current stock
+    */
   def ws: WebSocket = WebSocket.accept[JsValue, JsValue] { request =>
-    Logger.info("WS ALIVE!")
-    Logger.info("current stock being passed to actor = "+currentStock.getSymbol)
-//    val stock = YahooFinance.get("intc")
     ActorFlow.actorRef(out => WebSocketActor.props(out, currentStock))
   }
 
@@ -63,7 +63,6 @@ class HomeController @Inject()(implicit actorSystem: ActorSystem,
     */
   def searchStock = Action { implicit request: Request[AnyContent] =>
     val searchText = searchForm.bindFromRequest.get
-    Logger.debug("getStock() stock = "+searchText)
     currentStock = YahooFinance.get(searchText.searchText)
     Redirect(routes.HomeController.getStock(searchText.searchText))
   }

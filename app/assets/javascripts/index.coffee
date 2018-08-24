@@ -4,19 +4,9 @@ $ ->
   ws.onmessage = (event) ->
     message = JSON.parse event.data
     display(message)
-    console.log(message)
-
-  ws.onopen = (event) ->
-    console.log("opened")
-
-  ws.onclose = (event) ->
-    console.log("close")
-
-  ws.onerror = (event) ->
-    console.log("error")
 
   display = (message) ->
-    $("#message_holder").text(message)
+    # assign each value in json message to corresponding html element
     stockDetails = message.symbol + " | Stock Exchange: " + message.stockExchange + " | Currency: " + message.currency
 
     $("#stock-name").text(message.name)
@@ -24,6 +14,7 @@ $ ->
     $("#price").text(message.quotePrice)
     $("#start-price").text(message.prevClose)
 
+    # change `#change` and `#change-percent` elements' text to green or red based on numeric value
     if message.change < 0
         $("#change").text(message.change)
         $("#change").css("color", "red")

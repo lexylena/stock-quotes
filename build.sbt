@@ -1,4 +1,4 @@
-name := "scala-play-websocket-akka"
+name := "real-time-stocks"
 
 version := "1.0-SNAPSHOT"
 
